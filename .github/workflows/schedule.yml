@@ -1,0 +1,40 @@
+name: Daily Trending  # 工作流程的名称为 Daily Trending
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 每天触发  在UTC时间（+8为北京时间）每天执行
+  # push:
+  #  branches: [main]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest  # 在最新版的Ubuntu系统上运行
+
+    steps:
+    - uses: actions/checkout@v4  # 使用GitHub提供的操作，检出仓库内容
+
+    - name: Set up Go 1.23  # 设置Go 1.23环境
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.23  # 使用Go 1.23版本
+
+    - name: Install dependencies  # 安装Go依赖
+      run: |  # 执行多行命令
+        go mod download  # 下载依赖
+
+    - name: Run main.go  # 运行主程序
+      run: |  # 执行多行命令
+        go run main.go  # 运行 main.go 脚本
+
+    # 使用运行器 shell 运行一组命令
+    - name: push to origin master  # 推送到远程仓库的 master 分支
+      run: |  # 执行多行命令
+        echo "start push"  # 输出提示信息
+        git config --global user.name "infragpt"  # 配置全局用户名
+        git config --global user.email "infragpt@gmail.com"  # 配置全局邮箱
+
+        git add markdowns/*.md  # 添加 markdowns 文件夹下的所有 .md 文件
+        git commit -m $(date '+%Y-%m-%d')  # 提交并添加日期作为提交信息
+        git push  # 推送更改到远程仓库
