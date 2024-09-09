@@ -2,7 +2,7 @@ name: Daily Trending  # 工作流程的名称为 Daily Trending
 
 on:
   schedule:
-    - cron: '0 1,14 * * *'  # 每天触发  在UTC时间（+8为北京时间）每天执行
+    - cron: '0 1 * * *'  # 每天触发  在UTC时间（+8为北京时间）每天执行
   # push:
   #  branches: [main]
 
@@ -35,6 +35,7 @@ jobs:
         git config --global user.name "infragpt"  # 配置全局用户名
         git config --global user.email "infragpt@gmail.com"  # 配置全局邮箱
 
+        git pull
         git add markdowns/*.md  # 添加 markdowns 文件夹下的所有 .md 文件
         git commit -m $(date '+%Y-%m-%d')  # 提交并添加日期作为提交信息
         git push  # 推送更改到远程仓库
