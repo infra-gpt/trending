@@ -2,7 +2,7 @@ name: Daily Trending  # 工作流程的名称为 Daily Trending
 
 on:
   schedule:
-    - cron: '0 1 * * *'  # 每天触发  在UTC时间（+8为北京时间）每天执行
+    - cron: '0 1,14 * * *'  # 每天触发  在UTC时间（+8为北京时间）每天执行
   # push:
   #  branches: [main]
 
